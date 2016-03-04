@@ -66,18 +66,18 @@ namespace SortingALgorithms
         /// Sorts an array using Insertion Sort
         /// </summary>
         /// <param name="array"></param>
-        public static int[] InsertionSort(int[] array)
+        public static T[] InsertionSort<T>(T[] array) where T : IComparable<T>
         {
             // For all the items in the array
             for (int i = 0; i < array.Length; i++)
             {
                 // Select an element
-                int selected = array[i];
+                T selected = array[i];
 
                 // While I didn't reach the start of the array and the element is not in its place
-                while (0 < i && selected < array[i - 1])
+                while (0 < i && selected.CompareTo(array[i - 1]) < 0)
                 {
-                    // Put the bigger element infront of the selected element
+                    // Put the bigger element in front of the selected element
                     array[i] = array[i - 1];
 
                     // Decrement
@@ -89,7 +89,7 @@ namespace SortingALgorithms
             return array;
         }
 
-        private static int[] MergeSort(int[] array)
+        private static T[] MergeSort<T>(T[] array) where T : IComparable<T>
         {
             // Divide the array into sub arrays
             if (array.Length == 1)
@@ -100,8 +100,8 @@ namespace SortingALgorithms
             int arrayLength = array.Length;
             int halfLength = array.Length / 2;
 
-            int[] leftHalf = new int[halfLength];
-            int[] rightHalf = new int[arrayLength - halfLength];
+            T[] leftHalf = new T[halfLength];
+            T[] rightHalf = new T[arrayLength - halfLength];
 
             // Copy the left side to a smaller array
             for (int i = 0; i < halfLength; i++)
@@ -121,9 +121,9 @@ namespace SortingALgorithms
             return Merge(leftHalf, rightHalf);
         }
 
-        private static int[] Merge(int[] leftArray, int[] rightArray)
+        private static T[] Merge<T>(T[] leftArray, T[] rightArray) where T : IComparable<T>
         {
-            int[] merged = new int[leftArray.Length + rightArray.Length];
+            T[] merged = new T[leftArray.Length + rightArray.Length];
 
             int i = 0, j = 0, k = 0;
 
@@ -133,7 +133,8 @@ namespace SortingALgorithms
                 // Find the smaller element add it to the merged list Point to the next element of
                 // the small array
 
-                if (leftArray[i] < rightArray[j])
+                // If the element in the left array is bigger than the one in the right array
+                if (leftArray[i].CompareTo(rightArray[j]) > 0)
                 {
                     merged[k] = leftArray[i];
                     // Increment the counter of the left array
